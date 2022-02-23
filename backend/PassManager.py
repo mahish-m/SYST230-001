@@ -86,7 +86,7 @@ def getFernetKey(prompt): #gets firnet key from the zip file without unzipping i
 		print("password was entered incorrectly")
 
 def createPasswordTable():
-	table = [["DefaultApp","Password"]]
+	table = [["Application","Password"]]
 	pd.DataFrame(table).to_csv("Vault.csv",index=False)
 	encrypt("Vault.csv", getFernetKey("Please Enter Password to lock the Password Vault")) #encrypt the Vault
 
@@ -104,7 +104,9 @@ def viewPasswordTable(key):
 	decrypt("Vault.csv", key)#decrypt Vault
 	df = pd.read_csv (r"Vault.csv")
 	table = df.values.tolist()
-	print(table)
+	print("\n")
+	print(df)
+	print("\n")
 	encrypt("Vault.csv", key)#encrypt vault
 
 def encrypt(filename, key): #function used to encrypt Vault.exe
@@ -132,8 +134,7 @@ def decrypt(filename, key): #function used to decrypt Vault.exe
 def initialSetup():
 	write_key() #creates master AES key for your system
 	zipWithUserPass() #secure the key with master password
-	createPasswordTable() #sets up vault.csv with default company and password
-	#lock the table here
+	createPasswordTable() #sets up vault.csv with default company and password then locks
 
 
 def returning(key):
@@ -142,7 +143,7 @@ def returning(key):
 	print("Hello Returning User!\n")
 	ask = True
 	while ask == True:
-		options = input("Would you like to\n1)View Passwords\n2)Generate New Password\n3)Exit")
+		options = input("Would you like to\n1)View Passwords\n2)Generate New Password\n3)Exit\n>>>")
 		if "1" in options:
 			viewPasswordTable(key) #view the table of passwords
 		if "2" in options:
