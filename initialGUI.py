@@ -3,6 +3,20 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAc
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
+#from backend.PassManager import *
+
+"""
+TODO: Create a function in here which allows for GUI based inputs and outputs. i.e. a prompt. By doing this,
+all of the prompts created in the backend folder can be replaced with it.
+By adding this line to the top of the code:
+    from backend.PassManager import *
+It runs Passmanager.py. But the prompts to Passmanager.py are command line based. This means the GUI has to wait for
+the commandline/terminal to complete.
+If all the prompts in passmanager.py are replaced with a function which utilizes PyQt5 from initialGUI.py, 
+nothing really needs to be changed. Instead just replaced. Please work on this.
+"""
+
+
 class PasswordGenerator(QMainWindow):
 
     def __init__(self):
