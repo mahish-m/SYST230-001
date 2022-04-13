@@ -46,12 +46,10 @@ class StartPage(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button = ttk.Button(self, text="New User",
-                            command=lambda: controller.show_frame(newUser))
+        button = ttk.Button(self, text="New User",command=lambda: controller.show_frame(newUser))
         button.pack()
 
-        button2 = ttk.Button(self, text="Returning User",
-                            command=lambda: controller.show_frame(returnUser))
+        button2 = ttk.Button(self, text="Returning User", command=lambda: controller.show_frame(returnUser))
         button2.pack()
 
 
@@ -68,13 +66,13 @@ class newUser(tk.Frame):
         closeButton.pack()
         
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Text(self, height = 1, width = 15)
+        verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
         buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
@@ -87,12 +85,10 @@ class newUser(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button1 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button2 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
         button2.pack()
 
 
@@ -108,9 +104,9 @@ class returnUser(tk.Frame):
         closeButton.pack()
 
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
@@ -123,12 +119,10 @@ class returnUser(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button1 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button2 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
         button2.pack()
 
         
@@ -149,20 +143,16 @@ class mainMenu(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Add a Passwod",
-                            command=lambda: controller.show_frame(addPass))
+        button1 = ttk.Button(self, text="Add a Passwod", command=lambda: controller.show_frame(addPass))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Modify Password",
-                            command=lambda: controller.show_frame(modPass))
+        button2 = ttk.Button(self, text="Modify Password",command=lambda: controller.show_frame(modPass))
         button2.pack()
 
-        button3 = ttk.Button(self, text="Delete a Password",
-                            command=lambda: controller.show_frame(delPass))
+        button3 = ttk.Button(self, text="Delete a Password", command=lambda: controller.show_frame(delPass))
         button3.pack()
 
-        button4 = ttk.Button(self, text="View Password List",
-                            command=lambda: controller.show_frame(viewPass))
+        button4 = ttk.Button(self, text="View Password List", command=lambda: controller.show_frame(viewPass))
         button4.pack()
 
 class addPass(tk.Frame):
@@ -177,13 +167,13 @@ class addPass(tk.Frame):
         closeButton.pack()
 
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Text(self, height = 1, width = 15)
+        verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
         buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
@@ -195,12 +185,10 @@ class addPass(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button1 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button2.pack()
 
 
@@ -216,13 +204,13 @@ class modPass(tk.Frame):
         closeButton.pack()
 
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Text(self, height = 1, width = 15)
+        verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
         buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
@@ -234,12 +222,10 @@ class modPass(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button1 = ttk.Button(self, text="Main Menu", command=lambda: controller.show_frame(mainMenu))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button2 = ttk.Button(self, text="Start Page", command=lambda: controller.show_frame(StartPage))
         button2.pack()
 
 class delPass(tk.Frame):
@@ -254,13 +240,13 @@ class delPass(tk.Frame):
         closeButton.pack()
 
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass =  tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Text(self, height = 1, width = 15)
+        verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
         buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
@@ -272,12 +258,10 @@ class delPass(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button1 = ttk.Button(self, text="Main Menu", command=lambda: controller.show_frame(mainMenu))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button2.pack()
 
 class viewPass(tk.Frame):
@@ -292,13 +276,13 @@ class viewPass(tk.Frame):
         closeButton.pack()
 
         def get_input():
-           label.config(text=""+insertPass.get(1.0, "end-1c"))
+           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Text(self, height = 1, width = 15)
+        insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Text(self, height = 1, width = 15)
+        verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
         buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
@@ -310,12 +294,10 @@ class viewPass(tk.Frame):
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
 
-        button1 = ttk.Button(self, text="Main Menu",
-                            command=lambda: controller.show_frame(mainMenu))
+        button1 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Start Page",
-                            command=lambda: controller.show_frame(StartPage))
+        button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button2.pack()
 
 
