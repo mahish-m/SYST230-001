@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from backend.PassManager import *
 
 LARGE_FONT = ("Verdana", 12)
 
@@ -64,18 +65,20 @@ class newUser(tk.Frame):
 
         closeButton = ttk.Button(self, text="Close Program", command = close)
         closeButton.pack()
-        
+        enteredPass = tk.StringVar()
+        enteredPassConfirm = tk.StringVar()
+
         def get_input():
            label.config(text=""+insertPass.get())
 
-        insertPass = tk.Entry(self, show="*", width=15)
-  
+        insertPass = tk.Entry(self, show="*", width=15, textvariable=enteredPass)
         insertPass.pack()
+
 
         verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
 
-        buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
+        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: getPass(insertPass.get(), verPass.get()))
         buttonPrint.pack()
         
 
