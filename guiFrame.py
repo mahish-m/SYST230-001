@@ -4,6 +4,7 @@ from backend.PassManager import *
 
 LARGE_FONT = ("Verdana", 12)
 
+global HOLDER
 
 class Application(tk.Tk):
 
@@ -46,12 +47,12 @@ class StartPage(tk.Frame):
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
-
-        button = ttk.Button(self, text="New User",command=lambda: controller.show_frame(newUser))
-        button.pack()
-
-        button2 = ttk.Button(self, text="Returning User", command=lambda: controller.show_frame(returnUser))
-        button2.pack()
+        if ("key.key.zip" in os.listdir()) and ("Vault.csv" in os.listdir()):
+            button2 = ttk.Button(self, text="Returning User", command=lambda: controller.show_frame(returnUser))
+            button2.pack()
+        else:
+            button = ttk.Button(self, text="New User",command=lambda: controller.show_frame(newUser))
+            button.pack()
 
 
 
@@ -77,8 +78,9 @@ class newUser(tk.Frame):
 
         verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
-
-        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: getPass(insertPass.get(), verPass.get()))
+        pass1 = insertPass.get()
+        pass2 = verPass.get()
+        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: initialSetup(insertPass.get(), verPass.get()))
         buttonPrint.pack()
         
 
@@ -96,10 +98,10 @@ class newUser(tk.Frame):
 
 
 class returnUser(tk.Frame):
-
+    holder = ''
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-
+        
         def close():
            self.quit()
 
@@ -108,12 +110,15 @@ class returnUser(tk.Frame):
 
         def get_input():
            label.config(text=""+insertPass.get())
-
+        #global var
+        def check():#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
+            var = getFernetKey(insertPass.get())
+            print(var)
         insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
+        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: check())
         buttonPrint.pack()
 
         label = ttk.Label(self, text="Log In", font=LARGE_FONT)
