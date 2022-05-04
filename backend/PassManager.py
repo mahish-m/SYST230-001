@@ -122,24 +122,12 @@ def decrypt(filename, key): #function used to decrypt Vault.exe
 	with open(filename, "wb") as file:
 		file.write(decrypted_data)
 
-def initialSetup(pass1,pass2, passinput):
-	write_key() #creates master AES key for your system
-	zipWithUserPass(pass1,pass2) #secure the key with master password
-	createPasswordTable(passinput) #sets up vault.csv with default company and password then locks
+def initialSetup(pass1,pass2):
+	if pass1 == pass2:
+		write_key() #creates master AES key for your system
+		zipWithUserPass(pass1,pass2) #secure the key with master password
+		createPasswordTable(pass2) #sets up vault.csv with default company and password then locks
 
-
-def returning(key):
-	print("Hello Returning User!\n")
-	ask = True #loop for the menu
-	while ask == True:
-		options = input("Would you like to\n1)View Passwords\n2)Generate New Password\n3)Exit\n>>>")
-		if "1" in options:
-			viewPasswordTable(key) #view the table of passwords
-		if "2" in options:
-			addToPasswordTable(key) #add to the table of passwords
-		if "3" in options:
-			ask = False
-			print("Goodbye!")
 
 
 def run():
@@ -151,6 +139,6 @@ def run():
 		initialSetup()#this should only be run on first startup
 		print("Thanks for setting everything up!\nPlease run the program again to access its features")
 
-run()
+#run()
 
 
