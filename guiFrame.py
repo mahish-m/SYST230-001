@@ -1,16 +1,16 @@
 import tkinter as tk
-from tkinter import ttk
-from backend.PassManager import *
-
+from tkinter import StringVar, ttk
+from PassManager import *
+from backend.removepassword import *
 LARGE_FONT = ("Verdana", 12)
 
-global HOLDER
 
 class Application(tk.Tk):
 
     def __init__(self, *args, **kwargs):        
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Password Manager")       
+        tk.Tk.wm_title(self, "Password Manager")  
+        self.app_data = {"key":StringVar()}  #place to store key outside of each page IMPORTANT   
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
@@ -29,6 +29,7 @@ class Application(tk.Tk):
 
     def getVUE(self):
         return self.von_ueberall_erreichbar
+
 
 
     def show_frame(self, targetFrame):
@@ -60,7 +61,6 @@ class newUser(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-
         def close():
            self.quit()
 
@@ -98,8 +98,8 @@ class newUser(tk.Frame):
 
 
 class returnUser(tk.Frame):
-    holder = ''
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
         
         def close():
@@ -107,22 +107,19 @@ class returnUser(tk.Frame):
 
         closeButton = ttk.Button(self, text="Close Program", command = close)
         closeButton.pack()
-
-        def get_input():
-           label.config(text=""+insertPass.get())
-        #global var
-        def check():#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
+        key_var = ""
+        def check(self):#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
             var = getFernetKey(insertPass.get())
             print(var)
+            key = self.controller.app_data["key"] #sending the key to the controller to be stores in memory IMPORTANT
+            controller.show_frame(mainMenu)
         insertPass = tk.Entry(self, show="*", width=15)
   
         insertPass.pack()
 
-        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: check())
-        buttonPrint.pack()
+        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda: check(self)).pack()
 
-        label = ttk.Label(self, text="Log In", font=LARGE_FONT)
-        label.pack(pady=10,padx=10)
+        label = ttk.Label(self, text="Log In", font=LARGE_FONT).pack(pady=10,padx=10)
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
@@ -130,13 +127,13 @@ class returnUser(tk.Frame):
         button1 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button1.pack()
 
-        button2 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
-        button2.pack()
-
         
 class mainMenu(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
+        key = self.controller.app_data["key"].get() #GETTING THE KEY! IMPORTANT AS FUCK!!!!!!!!
+        #print(key)
         tk.Frame.__init__(self, parent)
 
         def close():
@@ -166,6 +163,9 @@ class mainMenu(tk.Frame):
 class addPass(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
+        key = self.controller.app_data["key"].get()
+        print("AHHH", self.controller.app_data)
         tk.Frame.__init__(self, parent)
 
         def close():
@@ -174,21 +174,23 @@ class addPass(tk.Frame):
         closeButton = ttk.Button(self, text="Close Program", command = close)
         closeButton.pack()
 
-        def get_input():
-           label.config(text=""+insertPass.get())
 
-        insertPass = tk.Entry(self, show="*", width=15)
+        inputlabel = ttk.Label(self, text="Input Name Associated\nFor Generated Password:", font=("Arial",10)).pack(pady=10,padx=10)
+        #verPass = tk.Entry(self, show="", width=15).pack()
+        def genPass(self, key):
+            name = insertPass.get()
+            print(name)
+            print(key)
+            print(type(key))
+            addToPasswordTable(key, name)
+        
+        insertPass = tk.Entry(self, show="", width=15)
   
         insertPass.pack()
 
-        verPass = tk.Entry(self, show="*", width=15)
-        verPass.pack()
+        buttonPrint = ttk.Button(self, text="Generate Password", command=lambda: genPass(self, self.controller.app_data["key"].get())).pack()
 
-        buttonPrint = ttk.Button(self, text="Confirm Password", command=get_input)
-        buttonPrint.pack()
-
-        label = ttk.Label(self, text="Add a Password", font=LARGE_FONT)
-        label.pack(pady=10,padx=10)
+        label = ttk.Label(self, text="Add a Password", font=LARGE_FONT).pack(pady=10,padx=10)
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
@@ -203,6 +205,7 @@ class addPass(tk.Frame):
 class modPass(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
 
         def close():
@@ -239,6 +242,7 @@ class modPass(tk.Frame):
 class delPass(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
 
         def close():
@@ -275,6 +279,7 @@ class delPass(tk.Frame):
 class viewPass(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
 
         def close():
