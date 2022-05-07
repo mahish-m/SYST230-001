@@ -91,13 +91,15 @@ def addToPasswordTable(key, passinput):
 	encrypt("Vault.csv", key)#then encrypt it again
 
 def viewPasswordTable(key):
+	vals = ""
 	decrypt("Vault.csv", key)#decrypt Vault
 	df = pd.read_csv (r"Vault.csv")
 	table = df.values.tolist()
 	print("\n")
-	print(df)
+	vals = (df)
 	print("\n")
 	encrypt("Vault.csv", key)#encrypt vault
+	return vals
 
 def encrypt(filename, key): #function used to encrypt Vault.csv
 	f = Fernet(key)
