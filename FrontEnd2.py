@@ -6,8 +6,6 @@ from backend.removepassword import *
 import csv
 import pandas
 from pandas import *
-import pandastable
-from pandastable import Table, TableModel
 LARGE_FONT = ("Verdana", 12)
 
 
@@ -300,10 +298,18 @@ class viewPass(tk.Frame):
         closeButton = ttk.Button(self, text="Close Program", command = close)
         closeButton.pack()
 
+        
+        
         def buildTable(self, table):
+            #table = table.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True, inplace=True)
             print(table)
-            text = ttk.Label(self)
-            text = ttk.Label(self, text = str(table.iloc[1:len(table),0:len(table.columns)])).pack()
+
+            text2 = tk.Text(self)
+            #text = ttk.Label(self, text = str(table.iloc[1:len(table),0:len(table.columns)])).pack()
+            text2.delete(1.0,"end")
+            text2.insert(1.0, str(table.iloc[0:len(table),0:len(table.columns)]))
+            text2.tag_configure("Password Table", justify='center')
+            text2.pack()
 
 
         buttonPrint = ttk.Button(self, text="Show table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()

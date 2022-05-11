@@ -36,7 +36,8 @@ d) When not in use, the key is zipped with a password (the master password). Thi
 """
 
 def generatePassword(): #generates a random 12 character password. For later use
-	newpass = ''.join(random.choice(string.printable) for _ in range(16))
+	valid_chars = list(string.ascii_letters + string.digits + "!@#$%^&*()")
+	newpass = ''.join(random.choice(valid_chars) for _ in range(16))
 	return(newpass)
 
 def write_key():#this generates a key for the master password. This should ONLY be used when the program is first used
