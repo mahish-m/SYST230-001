@@ -6,6 +6,7 @@ from backend.removepassword import *
 import csv
 import pandas
 from pandas import *
+import time
 LARGE_FONT = ("Verdana", 12)
 
 
@@ -56,6 +57,9 @@ class StartPage(tk.Frame):
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
+
+            
+
         if ("key.key.zip" in os.listdir()) and ("Vault.csv" in os.listdir()):
             button2 = ttk.Button(self, text="Returning User", command=lambda: controller.show_frame(returnUser))
             button2.pack()
@@ -74,6 +78,10 @@ class newUser(tk.Frame):
 
         closeButton = ttk.Button(self, text="Close Program", command = close)
         closeButton.pack()
+        label = ttk.Label(self, text="Input Matching Password", font=LARGE_FONT).pack(pady=10,padx=10)
+        inputlabel = ttk.Label(self, text="After inputting matching\npassword, program will close.\nPlease restart to access features.", font=("Arial",10))
+        inputlabel.configure(anchor=tk.CENTER)
+        inputlabel.pack(pady=10,padx=10)
         enteredPass = tk.StringVar()
         enteredPassConfirm = tk.StringVar()
            
@@ -82,18 +90,22 @@ class newUser(tk.Frame):
 
         verPass = tk.Entry(self, show="*", width=15)
         verPass.pack()
-        pass1 = insertPass.get()
-        pass2 = verPass.get()
-
-        if pass1 == pass2:
-            buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda *args: [initialSetup(insertPass.get(), verPass.get()),controller.show_frame(mainMenu)])
-        else:
-            label = ttk.Label(self, text="Please enter a matching Password", font=LARGE_FONT)
-            label.pack(pady=10,padx=10)
-            buttonPrint = ttk.Button(self, text="Please enter matching password", command = close)
-            
+        #global label
         
-        buttonPrint.pack()
+        def start_setup(self):#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
+            if insertPass.get() == verPass.get() and (insertPass.get() != "" or verPass.get() != ""):
+                #label.set("We're Setting up your account. Please restart after program closes")
+                initialSetup(insertPass.get(), verPass.get())
+                
+                ttk.Label(self, text="We're Setting up your account. Please restart program after it closes", font=LARGE_FONT).pack(pady=10,padx=10)
+                app.destroy()
+            else:
+                label = ttk.Label(self, text="Error: Non Matching Password", font=LARGE_FONT).pack(pady=10,padx=10)
+                insertPass.delete(0, tk.END)
+                verPass.delete(0, tk.END)
+        
+        
+        buttonPrint = ttk.Button(self, text="Confirm Password", command=lambda: start_setup(self)).pack()
     
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
@@ -303,7 +315,7 @@ class viewPass(tk.Frame):
         def buildTable(self, table):
             text2.delete(1.0,"end")
             text2.insert(1.0, str(table.iloc[0:len(table),0:len(table.columns)]))
-            text2.tag_configure("Password Table", justify='center')
+            text2.tag_configure("text2", justify=tk.CENTER)
             text2.pack()
         def hideTable(self):
             text2.delete(1.0,"end")
@@ -311,6 +323,8 @@ class viewPass(tk.Frame):
 
         buttonPrint = ttk.Button(self, text="Show table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
         buttonPrint2 = ttk.Button(self, text="Hide table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
+        label = ttk.Label(self, text="table here", font=LARGE_FONT)#have to create the when viewPass button is clicked, then store it as controller variable, then open in viewPass class
+        label.pack(pady=10,padx=10)
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
@@ -320,6 +334,9 @@ class viewPass(tk.Frame):
 
         button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button2.pack()
+
+
+
 
 
 app = Application()
@@ -347,7 +364,7 @@ menuManage.add_command(label="returnUser", command=lambda: app.show_frame(return
 menuManage.add_command(label="Start Page", command=lambda: app.show_frame(StartPage))
 
 # attach menubar
-app.config(menu=menubar) 
+#app.config(menu=menubar) 
 
 
 app.mainloop()
