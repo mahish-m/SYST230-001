@@ -57,9 +57,6 @@ class StartPage(tk.Frame):
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
-
-            
-
         if ("key.key.zip" in os.listdir()) and ("Vault.csv" in os.listdir()):
             button2 = ttk.Button(self, text="Returning User", command=lambda: controller.show_frame(returnUser))
             button2.pack()
@@ -73,11 +70,6 @@ class newUser(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
         label = ttk.Label(self, text="Input Matching Password", font=LARGE_FONT).pack(pady=10,padx=10)
         inputlabel = ttk.Label(self, text="After inputting matching\npassword, program will close.\nPlease restart to access features.", font=("Arial",10))
         inputlabel.configure(anchor=tk.CENTER)
@@ -96,7 +88,6 @@ class newUser(tk.Frame):
             if insertPass.get() == verPass.get() and (insertPass.get() != "" or verPass.get() != ""):
                 #label.set("We're Setting up your account. Please restart after program closes")
                 initialSetup(insertPass.get(), verPass.get())
-                
                 ttk.Label(self, text="We're Setting up your account. Please restart program after it closes", font=LARGE_FONT).pack(pady=10,padx=10)
                 app.destroy()
             else:
@@ -119,12 +110,7 @@ class returnUser(tk.Frame):
     def __init__(self, parent, controller):
         self.controller = controller
         tk.Frame.__init__(self, parent)
-        
-        def close():
-           self.quit()
 
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
         key_var = ""
         def check(self):#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
             var = getFernetKey(insertPass.get())
@@ -150,14 +136,7 @@ class mainMenu(tk.Frame):
     def __init__(self, parent, controller):
         self.controller = controller
         key = self.controller.app_data["key"].get() #GETTING THE KEY! IMPORTANT AS FUCK!!!!!!!!
-        #print(key)
         tk.Frame.__init__(self, parent)
-
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
 
         label = ttk.Label(self, text="Pick an Option", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
@@ -166,21 +145,16 @@ class mainMenu(tk.Frame):
         self.label2.pack(pady=10,padx=10)
         def getAllPass(self, key):
             table = (viewPasswordTable(key))#KEY PASSED TO FUNCTION STRICTLY LIKE THIS
-            #print(table)
             self.controller.app_data["table"] = viewPasswordTable(key)
-            #self.controller.app_data["table"] = table
             self.controller.show_frame(viewPass)
         def getAllPass2(self, key):
             table = (viewPasswordTable(key))#KEY PASSED TO FUNCTION STRICTLY LIKE THIS
             #print(table)
             self.controller.app_data["table"] = viewPasswordTable(key)
-            #self.controller.app_data["table"] = table
             self.controller.show_frame(modPass)
         def getAllPass3(self, key):
             table = (viewPasswordTable(key))#KEY PASSED TO FUNCTION STRICTLY LIKE THIS
-            #print(table)
             self.controller.app_data["table"] = viewPasswordTable(key)
-            #self.controller.app_data["table"] = table
             self.controller.show_frame(delPass)
 
 
@@ -203,13 +177,6 @@ class addPass(tk.Frame):
     def __init__(self, parent, controller):
         self.controller = controller
         tk.Frame.__init__(self, parent)
-
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
-
 
         inputlabel = ttk.Label(self, text="Input Name Associated\nFor Generated Password:", font=("Arial",10)).pack(pady=10,padx=10)
         #verPass = tk.Entry(self, show="", width=15).pack()
@@ -241,12 +208,6 @@ class modPass(tk.Frame):
     def __init__(self, parent, controller):
         self.controller = controller
         tk.Frame.__init__(self, parent)
-
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
 
         def get_input():
            label.config(text=""+insertPass.get())
@@ -280,15 +241,17 @@ class delPass(tk.Frame):
         print("addpass", self.controller.app_data["key"].get())
         tk.Frame.__init__(self, parent)
 
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
-
         text2 = tk.Text(self)
         
         def buildTable(self, table):
+            count = 0
+            for i in range(0,len(self.controller.app_data["table"].to_string())):
+                if self.controller.app_data["table"].to_string()[i] == "\n":
+                    count = 0
+                count = count + 1
+            text2.config(width=count+1 )
+            y = (len(self.controller.app_data["table"])) + 2
+            text2.config(height=y )
             table = table.rename(columns={'0': 'Account Name', '1': 'Password'})
             text2.delete(1.0,tk.END)
             text2.insert(1.0, str(table.iloc[1:len(table),0:len(table.columns)]))
@@ -331,28 +294,31 @@ class viewPass(tk.Frame):
         self.controller = controller
         print("addpass", self.controller.app_data["key"].get())
         tk.Frame.__init__(self, parent)
-
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
-
+        
         
         text2 = tk.Text(self)
         
         def buildTable(self, table):
+            count = 0
+            for i in range(0,len(self.controller.app_data["table"].to_string())):
+                if self.controller.app_data["table"].to_string()[i] == "\n":
+                    count = 0
+                count = count + 1
+            text2.config(width=count+1 )
+            y = (len(self.controller.app_data["table"])) + 2
+            text2.config(height=y )
             table = table.rename(columns={'0': 'Account Name', '1': 'Password'})
             text2.delete(1.0,"end")
             text2.insert(1.0, str(table.iloc[0:len(table),0:len(table.columns)]))
             text2.tag_configure("text2", justify=tk.CENTER)
+            text2.place(height=30, width=200)
             text2.pack()
-        def hideTable(self):
+        def hideTable(self, table):
             text2.delete(1.0,"end")
 
 
         buttonPrint = ttk.Button(self, text="Show table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
-        buttonPrint2 = ttk.Button(self, text="Hide table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
+        buttonPrint2 = ttk.Button(self, text="Hide table", command= lambda: hideTable(self,self.controller.app_data["table"])).pack()
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
