@@ -102,16 +102,6 @@ def viewPasswordTable(key):
 	encrypt("Vault.csv", key)#encrypt vault
 	return vals
 
-def removePassword(key, passName):
-    decrypt("Vault.csv",key)
-    df=pd.read_csv(r"Vault.csv")
-    table = df.values.tolist()
-    for x in table:
-        if passName in x:
-            table.remove(x)
-    pd.DataFrame(table).to_csv("Vault.csv",index=False)
-    encrypt("Vault.csv", key)#then encrypt it again
-
 def encrypt(filename, key): #function used to encrypt Vault.csv
 	f = Fernet(key)
 	with open(filename, "rb") as file:
@@ -140,6 +130,16 @@ def initialSetup(pass1,pass2):
 		zipWithUserPass(pass1,pass2) #secure the key with master password
 		createPasswordTable(pass2) #sets up vault.csv with default company and password then locks
 
+def removePassword(key, passName):
+    decrypt("Vault.csv",key)
+    df=pd.read_csv(r"Vault.csv")
+    table = df.values.tolist()
+    for x in table:
+        if passName in x:
+            table.remove(x)
+    pd.DataFrame(table).to_csv("Vault.csv",index=False)
+    encrypt("Vault.csv", key)#then encrypt it again
+
 
 
 def run():
@@ -152,4 +152,5 @@ def run():
 		print("Thanks for setting everything up!\nPlease run the program again to access its features")
 
 #run()
+
 
