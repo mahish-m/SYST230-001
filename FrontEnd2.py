@@ -116,7 +116,6 @@ class returnUser(tk.Frame):
         key_var = ""
         def check(self):#the next class called needs to be from here, (menu), and the fernet key needs to be passed as a parameter to said class
             var = getFernetKey(insertPass.get())
-            print(var)
             self.controller.app_data["key"]  = var #sending the key to the controller to be stores in memory IMPORTANT
             controller.show_frame(mainMenu)
         insertPass = tk.Entry(self, show="*", width=15)
@@ -299,23 +298,19 @@ class viewPass(tk.Frame):
         closeButton.pack()
 
         
+        text2 = tk.Text(self)
         
         def buildTable(self, table):
-            #table = table.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True, inplace=True)
-            print(table)
-
-            text2 = tk.Text(self)
-            #text = ttk.Label(self, text = str(table.iloc[1:len(table),0:len(table.columns)])).pack()
             text2.delete(1.0,"end")
             text2.insert(1.0, str(table.iloc[0:len(table),0:len(table.columns)]))
             text2.tag_configure("Password Table", justify='center')
             text2.pack()
+        def hideTable(self):
+            text2.delete(1.0,"end")
 
 
         buttonPrint = ttk.Button(self, text="Show table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
-        
-        label = ttk.Label(self, text="table here", font=LARGE_FONT)#have to create the when viewPass button is clicked, then store it as controller variable, then open in viewPass class
-        label.pack(pady=10,padx=10)
+        buttonPrint2 = ttk.Button(self, text="Hide table", command= lambda: buildTable(self,self.controller.app_data["table"])).pack()
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
         self.label2.pack(pady=10,padx=10)
@@ -325,40 +320,6 @@ class viewPass(tk.Frame):
 
         button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
         button2.pack()
-
-
-    '''def __init__(self, parent, controller):
-        self.controller = controller
-        print("addpass", self.controller.app_data["key"].get())
-        tk.Frame.__init__(self, parent)
-
-        def close():
-           self.quit()
-
-        closeButton = ttk.Button(self, text="Close Program", command = close)
-        closeButton.pack()
-
-       # insertPass = tk.Entry(self, show="*", width=15)
-  
-       # insertPass.pack()
-
-        #verPass = tk.Entry(self, show="*", width=15)
-       # verPass.pack()
-
-
-        def buildTable(self, key):
-            # open file
-            print(key)
-        buttonPrint = ttk.Button(self, text="View Password Table", command=lambda: buildTable(self)).pack()
-        
-        label = ttk.Label(self, text="table here", font=LARGE_FONT)#have to create the when viewPass button is clicked, then store it as controller variable, then open in viewPass class
-        label.pack(pady=10,padx=10)
-
-        button1 = ttk.Button(self, text="Main Menu",command=lambda: controller.show_frame(mainMenu))
-        button1.pack()
-
-        button2 = ttk.Button(self, text="Start Page",command=lambda: controller.show_frame(StartPage))
-        button2.pack()'''
 
 
 app = Application()
