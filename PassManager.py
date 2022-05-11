@@ -36,7 +36,8 @@ d) When not in use, the key is zipped with a password (the master password). Thi
 """
 
 def generatePassword(): #generates a random 12 character password. For later use
-	newpass = ''.join(random.choice(string.printable) for _ in range(16))
+	valid_chars = list(string.ascii_letters + string.digits + "!@#$%^&*()")
+	newpass = ''.join(random.choice(valid_chars) for _ in range(16))
 	return(newpass)
 
 def write_key():#this generates a key for the master password. This should ONLY be used when the program is first used
@@ -128,6 +129,16 @@ def initialSetup(pass1,pass2):
 		write_key() #creates master AES key for your system
 		zipWithUserPass(pass1,pass2) #secure the key with master password
 		createPasswordTable(pass2) #sets up vault.csv with default company and password then locks
+
+def removePassword(key, passName):
+    decrypt("Vault.csv",key)
+    df=pd.read_csv(r"Vault.csv")
+    table = df.values.tolist()
+    for x in table:
+        if passName in x:
+            table.remove(x)
+    pd.DataFrame(table).to_csv("Vault.csv",index=False)
+    encrypt("Vault.csv", key)#then encrypt it again
 
 
 
