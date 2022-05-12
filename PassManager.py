@@ -9,6 +9,7 @@ import pyzipper
 import pandas as pd
 import getpass
 import string
+import re
 
 #Fernet: https://www.thepythoncode.com/article/encrypt-decrypt-files-symmetric-python
 """
@@ -20,7 +21,7 @@ b) Next, a nested list is made saved to a file called "Vault.csv". Here is where
 c) The key will be used to encrypt and decrypt this data when read from Vault.csv
 d) When not in use, the key is zipped with a password (the master password). This will only be unzipped to decrypt or encrypt "Vault.csv"
 """
-#TODO: 
+#TODO:
 """
 1) UI 
 2) check to make sure passwords generated are unique within the Vault
@@ -34,6 +35,23 @@ d) When not in use, the key is zipped with a password (the master password). Thi
 8) Make sure names for passwords are unique within the vault
 9) Make sure that the user can change the master password
 """
+
+
+def checkSecPass(passInput):
+	string_check = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+
+	if len(passInput) < 8:
+		#print("Your Password Must be More Than 8 Characters, Please Try Again!")
+		return "Your Password Must be More Than 8 Characters, Please Try Again!"
+	elif (string_check.search(passInput) == None):
+		#print("Password must contain at least one special character, Please try again!")
+		return "Password must contain at least one special character, Please try again!"
+	elif not (bool(re.search(r'\d', passInput))):
+		#print("Password must contain at least a number, Please try again!")
+		return "Password must contain at least a number, Please try again!"
+	else:
+		return True
+
 
 def generatePassword(): #generates a random 12 character password. For later use
 	valid_chars = list(string.ascii_letters + string.digits + "!@#$%^&*()")
@@ -131,17 +149,23 @@ def initialSetup(pass1,pass2):
 		createPasswordTable(pass2) #sets up vault.csv with default company and password then locks
 
 def removePassword(key, passName):
-    decrypt("Vault.csv",key)
-    df=pd.read_csv(r"Vault.csv")
-    table = df.values.tolist()
-    for x in table:
-        if passName in x:
-            table.remove(x)
-    pd.DataFrame(table).to_csv("Vault.csv",index=False)
-    encrypt("Vault.csv", key)#then encrypt it again
-
-
-
+	decrypt("Vault.csv",key)
+	df=pd.read_csv(r"Vault.csv")
+	table = df.values.tolist()
+	for x in table:
+		if passName in x:
+			table.remove(x)
+	pd.DataFrame(table).to_csv("Vault.csv",index=False)
+	encrypt("Vault.csv", key)#then encrypt it again
+def modifyPassword(key, pass2Del):
+	decrypt("Vault.csv", key)
+	df = pd.read_csv(r"Vault.csv")
+	table = df.values.tolist()
+	for row in table:
+		if pass2Del in row:
+			row[1] = generatePassword()
+	pd.DataFrame(table).to_csv("Vault.csv", index= False)
+	encrypt("Vault.csv", key)
 def run():
 	if ("key.key.zip" in os.listdir()) and ("Vault.csv" in os.listdir()):
 		key = getFernetKey("Input Password to Log In")
