@@ -247,7 +247,7 @@ class modPass(tk.Frame):
         insertPass = tk.Entry(self, width=15)
         insertPass.pack()
 
-        label = ttk.Label(self, text="delete a password", font=LARGE_FONT)
+        label = ttk.Label(self, text="modify a password", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
         self.label2 = ttk.Label(self, text=controller.getVUE(), font=LARGE_FONT)
@@ -276,14 +276,6 @@ class delPass(tk.Frame):
         text2 = tk.Text(self)
         
         def buildTable(self, table):
-            count = 0
-            for i in range(0, len(self.controller.app_data["table"].to_string())):
-                if self.controller.app_data["table"].to_string()[i] == "\n":
-                    count = 0
-                count = count + 1
-            text2.config(width=count + 1)
-            y = (len(self.controller.app_data["table"])) + 2
-            text2.config(height=y)
             table = table.rename(columns={'0': 'Account Name', '1': 'Password'})
             text2.delete(1.0,tk.END)
             text2.insert(1.0, str(table.iloc[1:len(table),0:len(table.columns)]))
