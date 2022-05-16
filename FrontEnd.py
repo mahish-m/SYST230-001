@@ -2,7 +2,6 @@ import keyword
 import tkinter as tk
 from tkinter import StringVar, ttk
 from PassManager import *
-from backend.removepassword import *
 import csv
 import pandas
 from pandas import *
